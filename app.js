@@ -7,3 +7,4 @@ const argv = require('yargs').options({
 }).argv;
 
 console.log(argv.direccion);
+console.log(argv.direccion);
