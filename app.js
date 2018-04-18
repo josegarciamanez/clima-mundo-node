@@ -1,4 +1,6 @@
-const axios = require('axios')
+const lugar = require('./lugar/lugar');
+const clima = require('./clima/clima');
+
 const argv = require('yargs').options({
     direccion: {
         alias: 'd',
@@ -7,19 +9,14 @@ const argv = require('yargs').options({
     }
 }).argv
 
-let encodeUrl = encodeURI(argv.direccion);
-
-axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${ encodeUrl }&key=AIzaSyBdrk_BY_noe1tVeV3rNLJYg8QRYk44uCo`)
+lugar.getLugarLatLng(argv.direccion)
     .then(resp => {
-        let location = resp.data.results[0];
-        let coors = location.geometry.location;
-
-        console.log('Dirección: ', location.formatted_address);
-        console.log('lat', coors.lat);
-        console.log('lng', coors.lng);
-
-
-        // console.log(JSON.stringify(resp.data, undefined, 2));
-
+        console.log(resp)
     })
-    .catch(e => console.log('Error!!!!:', e));
+    .catch(e => console.log(e))
+
+clima.getClima(9.9280694, -84.0907246)
+    .then(temp => console.log(temp))
+    .catch(e => console.log(e))
+
+// PETICION http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&units=metric&appid=6583876280f112240d54a34537a6ba4a
